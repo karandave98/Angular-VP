@@ -1,0 +1,45 @@
+{
+    "plans": [{  
+        "id": 1,  
+        "planName": "Basic",  
+        "minPakcageCount": 1,
+        "weeklyPlanPrice": 24.99,
+        "monthlyPlanPrice": 79.99
+    }, {  
+        "id": 2,  
+        "planName": "Silver",  
+        "minPakcageCount": 2,
+        "weeklyPlanPrice": 44.99,
+        "monthlyPlanPrice": 139.99
+    }, {  
+        "id": 3,  
+        "planName": "Gold",  
+        "minPakcageCount": 3,
+        "weeklyPlanPrice": 59.99,
+        "monthlyPlanPrice": 189.99
+    }
+    ],
+    "packages": [{  
+        "id": 1,  
+        "packageName": "US Sports",  
+        "packageDescription": "NBA (National Basketball Association), MLS (Major League Soccer), MLB (Major League Baseball), NFL (National Football League), NHL (National Hockey League)"
+    }, {  
+        "id": 2,  
+        "packageName": "AU Sports",  
+        "packageDescription": "NRL (National Rugby League), AFL (Australian Football League),NBA (National Basketball Association), MLS (Major League Soccer), MLB (Major League Baseball), NFL (National Football League), NHL (National Hockey League)"
+    }, {  
+        "id": 3,  
+        "packageName": "EU Sports",  
+        "packageDescription": "UEFA (Union of European Football Associations), ECB (England Cricket Board), MLS (Major League Soccer), MLB (Major League Baseball), NFL (National Football League), NHL (National Hockey League)"
+    }],
+    "user-package": [{
+        "id": 1,
+        "name": "Willian White",
+        "plan": 2,
+        "package": [1,2],
+        "planName": "Silver",
+        "packageName": ["AU Sports", "EU Sports"],
+        "totalPrice": 59.99,
+        "isWeekly": true
+    }]
+}

@@ -1,0 +1,138 @@
+<div class="title-box-top">
+    <h1 class="page-title"><b>Subscription Plans</b></h1>
+    <h2 class="x-small-title"><strong>You may choose the plans which will be best suited your requirements.</strong>
+    </h2>
+</div>
+<!-- <h2 class="title-small section-title"><strong>Subscription Plans</strong></h2> -->
+<ng-container *ngFor="let plan of availPlansList">
+    <section class="plans-box">
+        <div id="accordion{{plan.id}}" class="accordion">
+            <div class="accordion-item plan-box">
+                <div class="card-header collapsed" data-toggle="collapse" [attr.href]="'#collapseOne' + plan.id">
+                    <div class="flex-space-box top-arrow-box">
+                        <h3 class="title"><b>{{plan.planName}} <sub>(Any {{plan.minPakcageCount}} Full
+                                    Packages)</sub></b></h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="21.988" height="12.569"
+                            viewBox="0 0 21.988 12.569">
+                            <path id="Path_22845" data-name="Path 22845"
+                                d="M10.992,0A1.542,1.542,0,0,0,9.9.46L.453,9.927a1.549,1.549,0,0,0,2.191,2.19l8.35-8.376,8.348,8.372a1.549,1.549,0,1,0,2.195-2.187L12.093.455A1.537,1.537,0,0,0,11,0Z"
+                                fill="#232323" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="general-check-box round">
+                            <input type="checkbox" name="week" id="first-pla-{{plan.id}}"
+                                (change)="planChange($event, plan,true)">
+                            <label for="first-pla-{{plan.id}}">{{plan.weeklyPlanPrice | number: '1.2-2' | currency }}
+                                <sub>Weekly Plan</sub></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="general-check-box round">
+                            <input type="checkbox" name="month" id="second-pla-{{plan.id}}"
+                                (change)="planChange($event, plan, false)">
+                            <label for="second-pla-{{plan.id}}">{{plan.monthlyPlanPrice | number: '1.2-2' | currency }}
+                                <sub>Monthly Plan</sub></label>
+                        </div>
+                    </div>
+                </div>
+                <div [attr.id]="'collapseOne' + plan.id" class="card-body collapse" [attr.data-parent]="'#accordion' + plan.id">
+                    <ng-container *ngFor="let package of availPackageList">
+                    <div id="subaccordion{{plan.id}}{{package.id}}" class="accordion sub-accordion">
+                            <div class="accordion-item">
+                                <div class="card-header collapsed" data-toggle="collapse" [attr.href]="'#collapseSubOne' + plan.id+package.id">
+                                    <div class="flex-space-box top-arrow-box">
+                                        <div class="general-check-box with-no-label">
+                                            <input type="checkbox" name="{{plan.id}}-{{package.id}}" id="{{plan.id}}-{{package.id}}" (change) = "packageChanged($event, plan, package)">
+                                            <label class="title-small">{{package.packageName}}</label>
+                                        </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="21.988" height="12.569"
+                                            viewBox="0 0 21.988 12.569">
+                                            <path id="Path_22845" data-name="Path 22845"
+                                                d="M10.992,0A1.542,1.542,0,0,0,9.9.46L.453,9.927a1.549,1.549,0,0,0,2.191,2.19l8.35-8.376,8.348,8.372a1.549,1.549,0,1,0,2.195-2.187L12.093.455A1.537,1.537,0,0,0,11,0Z"
+                                                fill="#232323" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div id="collapseSubOne{{plan.id}}{{package.id}}" class="card-body collapse" [attr.data-parent]="'#subaccordion' + plan.id+package.id">
+                                    <div class="sub-accordion-content">
+                                        <p>{{package.packageDescription}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </section>
+</ng-container>
+<ng-container *ngFor="let item of selePlanPackageList">
+    <section class="no-padding-top">
+        <div class="plan-box gray-box">
+            <div class="flex-space-box flex-align-top">
+                <h3 class="title"><b>{{item.planName}} ({{item.isWeekly ? 'Weekly Plan' : 'Monthly Plan'}})</b></h3>
+                <div>
+                    {{item.selectedAmount| number: '1.2-2' | currency}}
+                </div>
+            </div>
+            <ng-container *ngIf="item.selPackageList.length > 0;">
+                <h4 class="x-small-title medium">Packages Details:</h4>
+                <div class="x-small-title medium" *ngFor="let pack of item.selPackageList; let i = index">
+                    <div style="margin-left: 1%;">
+                        <b>{{i+1}}</b>. <span [title]="pack.packageDescription"> {{pack.packageName}}</span>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="item.selPackageList.length <= 0 || item.selPackageList.length < item.minPakcageCount">
+               <span style="color: red;"> Please Select minimum {{item.minPakcageCount}} Packages.</span>
+            </ng-container>
+            <!-- <h4 class="x-small-title medium">You will get a discount of 33% on total amount.</h4> -->
+        </div>
+    </section>
+</ng-container>
+<section class="no-padding-top">
+    <div class="plan-box gray-box">
+        <div class="flex-space-box flex-align-top">
+            <h3 class="title"><b>Total Amount</b></h3>
+            <div>
+                {{getSumAmount() | number: '1.2-2' | currency}}
+            </div>
+        </div>
+        <!-- <h4 class="x-small-title medium">You will get a discount of 33% on total amount.</h4> -->
+    </div>
+</section>
+<section class="action-btn">
+    <a data-toggle="modal" data-target="#largeModal">Apply Discount Code?</a> &nbsp;&nbsp;
+    <span *ngIf="showCouponCode" style="color: #0E8BE8;">{{couponCode}}</span><br><br>
+    <span style="color: red;" *ngIf="errorMessage"> {{errorMessage}}<br><Br></span>
+    <button class="blue-button medium-size-btn" (click) = "proccedToPayment()">Proceed to Pay</button>
+</section>
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg custom-modal-large">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <img src="../../assets/images/cross-button.png">
+            </button>
+            <div class="model-content-box">
+                <div class="side-image-box">
+                    <img src="../../assets/images/popup-side-image.png">
+                </div>
+                <div class="form-box text-center">
+                    <img src="../../assets/images/small-logo.svg">
+                    <h3 class="title"><b>Apply Discount Code</b></h3>
+                    <h4 class="x-small-title">To get the most of value for the subscription plan</h4>
+                    <form>
+                        <div class="input-box">
+                            <input type="text" name="couponCode" class="full-width" [(ngModel)]="couponCode">
+                        </div>
+                        <button class="blue-button full-width text-center" data-dismiss="modal" aria-label="Close" (click) = "applyCouponCode()">Apply</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
